@@ -1,0 +1,64 @@
+/* Green Theme Overrides */
+header.banner {
+    border-bottom-color: #a2c037 !important;
+}
+
+header.banner nav.nav-primary>div ul li a:hover,
+header.banner nav.nav-primary>div ul li ul.sub-menu li a:hover,
+header.banner nav.nav-primary>div ul li.current-menu-item>a,
+header.banner nav.nav-primary>div ul li.current-menu-parent>a,
+header.banner nav.nav-primary>div ul li.current_page_item>a,
+header.banner nav.nav-primary>div ul li.current_page_parent>a {
+    background-color: #a2c037 !important;
+    color: #ffffff !important;
+}
+
+.wp-pagenavi a.current,
+.wp-pagenavi a:hover,
+.wp-pagenavi span.current,
+.wp-pagenavi span:hover {
+    background-color: #a2c037 !important;
+    border-color: #a2c037 !important;
+    color: #fff !important;
+}
+
+footer.content-info {
+    border-top-color: #a2c037 !important;
+}
+
+.block-table table tr:first-child td,
+.block-table table tr:first-child td h2,
+.aps-contact-form h2 {
+    background-color: #a2c037 !important;
+    color: #ffffff !important;
+}
+
+.block-table#welcome table tr:last-child td a:hover,
+.aps-contact-form .field-group.group-submit .field+.field input[type=submit]:hover {
+    background-color: #2e7d32 !important;
+    color: #ffffff !important;
+}
+
+#home-slider .nivo-controlNav a.active {
+    background-color: #a2c037 !important;
+}
+
+.block-page .page-summary a.read-more:hover {
+    background-color: #2e7d32 !important;
+    color: #ffffff !important;
+}
+
+.lSSlideOuter .lSPager.lSpg>li.active a,
+.aps-contact-form .field-group.group-submit .field+.field input[type=submit] {
+    background-color: #a2c037 !important;
+}
+
+/* Additional Green Accents */
+.text-success {
+    color: #a2c037 !important;
+}
+
+.btn-primary, .btn-success {
+    background-color: #a2c037 !important;
+    border-color: #a2c037 !important;
+}

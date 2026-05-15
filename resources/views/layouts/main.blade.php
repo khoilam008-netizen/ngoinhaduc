@@ -155,6 +155,7 @@
     </style>
 
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/green-theme.css') }}">
 
     <script type="text/javascript" src="https://ngoinhaducindanang.com.vn/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"
         id="jquery-core-js"></script>
