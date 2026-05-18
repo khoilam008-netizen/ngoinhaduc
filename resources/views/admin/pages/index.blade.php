@@ -26,7 +26,7 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-gray-50/75 text-gray-500 uppercase text-xs tracking-wider border-b border-gray-100 font-bold">
-                        <th class="py-4 px-6 w-20">Ảnh bìa</th>
+                        {{-- <th class="py-4 px-6 w-20">Ảnh bìa</th> --}}
                         <th class="py-4 px-6">Tên trang & URL tĩnh</th>
                         <th class="py-4 px-6">Trạng thái</th>
                         <th class="py-4 px-6">Lần cập nhật cuối</th>
@@ -36,9 +36,11 @@
                 <tbody class="divide-y divide-gray-100 text-sm text-gray-700 font-medium">
                     @forelse($pages as $page)
                         <tr class="hover:bg-gray-50/50 transition">
+                            {{-- 
                             <td class="py-4 px-6">
                                 <img src="{{ $page->thumbnail ?? 'https://via.placeholder.com/150' }}" class="w-14 h-14 rounded-2xl object-cover border border-gray-200 shadow-xs" alt="">
                             </td>
+                            --}}
                             <td class="py-4 px-6">
                                 <div class="font-bold text-gray-900 text-base mb-1 hover:text-brand-600 transition">
                                     <a href="{{ route('admin.pages.edit', $page->id) }}">{{ $page->title }}</a>
@@ -67,7 +69,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center py-16 text-gray-500 font-medium">
+                            <td colspan="4" class="text-center py-16 text-gray-500 font-medium">
                                 <div class="space-y-3">
                                     <i class="fa-solid fa-folder-open text-4xl text-gray-300"></i>
                                     <p>Chưa có trang tĩnh nào thuộc mục Giới thiệu.</p>

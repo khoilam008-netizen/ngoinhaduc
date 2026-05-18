@@ -17,12 +17,30 @@ use App\Http\Controllers\AdminController;
 |--------------------------------------------------------------------------
 */
 
+use App\Models\Category;
+
 Route::get('/', function () {
     $desktopSlider = Slider::with('items')->where('slug', 'home-desktop')->first();
     $mobileSlider = Slider::with('items')->where('slug', 'home-mobile')->first();
     $featuredPost = Post::where('is_featured', true)->first();
-    return view('home', compact('desktopSlider', 'mobileSlider', 'featuredPost'));
+    
+    $eventCategory = Category::where('slug', 'su-kien')->first();
+    $eventPosts = collect();
+    if ($eventCategory) {
+        $eventPosts = Post::where('category_id', $eventCategory->id)
+            ->where('is_published', true)
+            ->latest()
+            ->take(2)
+            ->get();
+    }
+
+    return view('home', compact('desktopSlider', 'mobileSlider', 'featuredPost', 'eventCategory', 'eventPosts'));
 })->name('home');
+
+Route::get('/bai-viet/{slug}', function ($slug) {
+    $post = Post::where('slug', $slug)->firstOrFail();
+    return view('gioithieu.ngoinhaduc', compact('post'));
+})->name('posts.show');
 
 Route::get('/lich-hoc', function () {
     $coursesSang = CourseSchedule::where('session_type', 'Sáng')->orderBy('order')->get();

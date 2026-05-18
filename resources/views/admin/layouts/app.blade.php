@@ -54,6 +54,7 @@
                 <span>Tổng quan</span>
             </a>
 
+{{--
             <div class="pt-4 pb-2 px-3 text-xs font-semibold uppercase text-gray-500">Tuyển sinh & Thi</div>
 
             <a href="{{ route('admin.enrollments') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg transition font-medium {{ request()->routeIs('admin.enrollments') ? 'bg-brand-500 text-white shadow-md shadow-brand-500/30' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
@@ -65,6 +66,7 @@
                 <i class="fa-solid fa-file-signature w-5 text-center"></i>
                 <span>Đơn dự thi</span>
             </a>
+--}}
 
             <div class="pt-4 pb-2 px-3 text-xs font-semibold uppercase text-gray-500">Nội dung</div>
 

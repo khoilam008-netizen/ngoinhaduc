@@ -63,89 +63,116 @@
             </div>
 
             <div class="divide-y divide-gray-100">
-                @forelse($courseSchedules as $item)
-                    <div x-data="{ editing: false }" class="transition">
-                        <!-- Normal View -->
-                        <div x-show="!editing" class="p-4 flex items-center justify-between hover:bg-gray-50/75 transition">
-                            <div>
-                                <div class="flex items-center space-x-2">
-                                    <span class="font-bold text-gray-900">{{ $item->level }}</span>
-                                    <span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-0.5 rounded">{{ $item->session_type }}</span>
-                                    <span class="text-xs text-gray-400">Thứ tự: {{ $item->order }}</span>
-                                </div>
-                                <p class="text-xs text-gray-500 mt-1 font-medium">{!! nl2br(e($item->schedule_time)) !!} (Thời lượng: {{ $item->duration }})</p>
-                            </div>
-                            <div class="flex items-center space-x-1 shrink-0">
-                                <button @click="editing = true" type="button" class="text-amber-500 p-2 hover:bg-amber-50 rounded-lg transition" title="Chỉnh sửa">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                                <form action="{{ route('admin.courses.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Xóa khóa này khỏi lịch?');" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-500 p-2 hover:bg-red-50 rounded-lg transition" title="Xóa">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-
-                        <!-- Edit Form View -->
-                        <div x-show="editing" x-transition x-cloak class="p-6 bg-amber-50/60 border-y border-amber-100 shadow-inner">
-                            <div class="flex items-center justify-between mb-4">
-                                <h5 class="text-xs font-bold text-amber-800 uppercase tracking-wider flex items-center space-x-2">
-                                    <i class="fa-solid fa-pen text-amber-600"></i>
-                                    <span>Chỉnh sửa khóa học #{{ $item->id }}</span>
-                                </h5>
-                                <button @click="editing = false" type="button" class="text-xs font-bold text-gray-500 hover:text-gray-800 bg-white border border-gray-200 px-2 py-1 rounded">Đóng [X]</button>
-                            </div>
-                            <form action="{{ route('admin.courses.update', $item->id) }}" method="POST" class="space-y-4">
-                                @csrf
-                                @method('PUT')
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Ca học</label>
-                                        <select name="session_type" class="w-full text-sm rounded-lg border border-gray-300 p-2 bg-white">
-                                            <option value="Sáng" {{ $item->session_type == 'Sáng' ? 'selected' : '' }}>Sáng</option>
-                                            <option value="Tối" {{ $item->session_type == 'Tối' ? 'selected' : '' }}>Tối</option>
-                                            <option value="Luyện thi" {{ $item->session_type == 'Luyện thi' ? 'selected' : '' }}>Luyện thi</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Cấp độ</label>
-                                        <input type="text" name="level" required value="{{ $item->level }}" class="w-full text-sm rounded-lg border border-gray-300 p-2 bg-white shadow-sm" />
-                                    </div>
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Thời gian học (Số tuần)</label>
-                                        <input type="text" name="duration" required value="{{ $item->duration }}" class="w-full text-sm rounded-lg border border-gray-300 p-2 bg-white shadow-sm" />
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Thứ tự hiển thị</label>
-                                        <input type="number" name="order" required value="{{ $item->order }}" class="w-full text-sm rounded-lg border border-gray-300 p-2 bg-white shadow-sm" />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Lịch học chi tiết (Giờ học)</label>
-                                    <textarea name="schedule_time" rows="2" required class="w-full text-sm rounded-lg border border-gray-300 p-2 bg-white shadow-sm">{{ $item->schedule_time }}</textarea>
-                                </div>
-
-                                <div class="flex space-x-3 pt-2">
-                                    <button type="submit" class="bg-brand-500 hover:bg-brand-600 text-white font-bold px-5 py-2.5 rounded-lg text-xs shadow-md transition">
-                                        <i class="fa-solid fa-check mr-1.5"></i> Lưu cập nhật
-                                    </button>
-                                    <button @click="editing = false" type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold px-5 py-2.5 rounded-lg text-xs transition">
-                                        Hủy bỏ
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                @empty
+                @if($courseSchedules->isEmpty())
                     <p class="text-gray-500 text-center py-8">Chưa có khóa học nào.</p>
-                @endforelse
+                @else
+                    @php
+                        $groupedSchedules = $courseSchedules->groupBy('session_type');
+                        $shifts = [
+                            'Sáng' => 'Ca Sáng', 
+                            'Tối' => 'Ca Tối', 
+                            'Luyện thi' => 'Ca Thi / Luyện thi'
+                        ];
+                    @endphp
+
+                    @foreach($shifts as $key => $label)
+                        @if(isset($groupedSchedules[$key]) && $groupedSchedules[$key]->count() > 0)
+                            <div x-data="{ openGroup: false }" class="border-b border-gray-100 last:border-0">
+                                <div class="p-4 bg-gray-50 hover:bg-gray-100 flex items-center justify-between cursor-pointer transition" @click="openGroup = !openGroup">
+                                    <h5 class="font-bold text-gray-700 flex items-center space-x-2">
+                                        <i class="fa-solid fa-clock text-gray-400"></i>
+                                        <span>{{ $label }}</span>
+                                        <span class="bg-gray-200 text-gray-600 text-xs px-2 py-0.5 rounded-full">{{ $groupedSchedules[$key]->count() }}</span>
+                                    </h5>
+                                    <i class="fa-solid text-gray-400 transition-transform duration-200" :class="openGroup ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+                                </div>
+                                <div x-show="openGroup" x-transition x-cloak class="divide-y divide-gray-100">
+                                    @foreach($groupedSchedules[$key] as $item)
+                                        <div x-data="{ editing: false }" class="transition">
+                                            <!-- Normal View -->
+                                            <div x-show="!editing" class="p-4 pl-8 flex items-center justify-between hover:bg-gray-50/75 transition">
+                                                <div>
+                                                    <div class="flex items-center space-x-2">
+                                                        <span class="font-bold text-gray-900">{{ $item->level }}</span>
+                                                        <span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-0.5 rounded">{{ $item->session_type }}</span>
+                                                        <span class="text-xs text-gray-400">Thứ tự: {{ $item->order }}</span>
+                                                    </div>
+                                                    <p class="text-xs text-gray-500 mt-1 font-medium">{!! nl2br(e($item->schedule_time)) !!} (Thời lượng: {{ $item->duration }})</p>
+                                                </div>
+                                                <div class="flex items-center space-x-1 shrink-0">
+                                                    <button @click="editing = true" type="button" class="text-amber-500 p-2 hover:bg-amber-50 rounded-lg transition" title="Chỉnh sửa">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </button>
+                                                    <form action="{{ route('admin.courses.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Xóa khóa này khỏi lịch?');" class="inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="text-red-500 p-2 hover:bg-red-50 rounded-lg transition" title="Xóa">
+                                                            <i class="fa-solid fa-trash-can"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <!-- Edit Form View -->
+                                            <div x-show="editing" x-transition x-cloak class="p-6 bg-amber-50/60 border-y border-amber-100 shadow-inner">
+                                                <div class="flex items-center justify-between mb-4">
+                                                    <h5 class="text-xs font-bold text-amber-800 uppercase tracking-wider flex items-center space-x-2">
+                                                        <i class="fa-solid fa-pen text-amber-600"></i>
+                                                        <span>Chỉnh sửa khóa học #{{ $item->id }}</span>
+                                                    </h5>
+                                                    <button @click="editing = false" type="button" class="text-xs font-bold text-gray-500 hover:text-gray-800 bg-white border border-gray-200 px-2 py-1 rounded">Đóng [X]</button>
+                                                </div>
+                                                <form action="{{ route('admin.courses.update', $item->id) }}" method="POST" class="space-y-4">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="grid grid-cols-2 gap-4">
+                                                        <div>
+                                                            <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Ca học</label>
+                                                            <select name="session_type" class="w-full text-sm rounded-lg border border-gray-300 p-2 bg-white">
+                                                                <option value="Sáng" {{ $item->session_type == 'Sáng' ? 'selected' : '' }}>Sáng</option>
+                                                                <option value="Tối" {{ $item->session_type == 'Tối' ? 'selected' : '' }}>Tối</option>
+                                                                <option value="Luyện thi" {{ $item->session_type == 'Luyện thi' ? 'selected' : '' }}>Luyện thi</option>
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Cấp độ</label>
+                                                            <input type="text" name="level" required value="{{ $item->level }}" class="w-full text-sm rounded-lg border border-gray-300 p-2 bg-white shadow-sm" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-2 gap-4">
+                                                        <div>
+                                                            <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Thời gian học (Số tuần)</label>
+                                                            <input type="text" name="duration" required value="{{ $item->duration }}" class="w-full text-sm rounded-lg border border-gray-300 p-2 bg-white shadow-sm" />
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Thứ tự hiển thị</label>
+                                                            <input type="number" name="order" required value="{{ $item->order }}" class="w-full text-sm rounded-lg border border-gray-300 p-2 bg-white shadow-sm" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div>
+                                                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Lịch học chi tiết (Giờ học)</label>
+                                                        <textarea name="schedule_time" rows="2" required class="w-full text-sm rounded-lg border border-gray-300 p-2 bg-white shadow-sm">{{ $item->schedule_time }}</textarea>
+                                                    </div>
+
+                                                    <div class="flex space-x-3 pt-2">
+                                                        <button type="submit" class="bg-brand-500 hover:bg-brand-600 text-white font-bold px-5 py-2.5 rounded-lg text-xs shadow-md transition">
+                                                            <i class="fa-solid fa-check mr-1.5"></i> Lưu cập nhật
+                                                        </button>
+                                                        <button @click="editing = false" type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold px-5 py-2.5 rounded-lg text-xs transition">
+                                                            Hủy bỏ
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>

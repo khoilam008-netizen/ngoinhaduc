@@ -337,8 +337,16 @@ class AdminController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:categories,slug',
+            'image' => 'nullable|string',
+            'image_file' => 'nullable|image|max:10240',
             'description' => 'nullable|string',
         ]);
+
+        if ($request->hasFile('image_file')) {
+            $path = $request->file('image_file')->store('categories', 'public');
+            $validated['image'] = asset('storage/' . $path);
+        }
+        unset($validated['image_file']);
 
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['name']);
@@ -361,8 +369,16 @@ class AdminController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:categories,slug,' . $id,
+            'image' => 'nullable|string',
+            'image_file' => 'nullable|image|max:10240',
             'description' => 'nullable|string',
         ]);
+
+        if ($request->hasFile('image_file')) {
+            $path = $request->file('image_file')->store('categories', 'public');
+            $validated['image'] = asset('storage/' . $path);
+        }
+        unset($validated['image_file']);
 
         $category->update($validated);
         return redirect()->route('admin.categories')->with('success', 'Cập nhật danh mục thành công.');

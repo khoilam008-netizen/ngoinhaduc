@@ -29,7 +29,7 @@
 @endpush
 
 @section('content')
-<div class="max-w-5xl space-y-6 mb-12">
+<div class="w-full space-y-6 mb-12">
     <!-- Header -->
     <div class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
@@ -57,11 +57,12 @@
             <input type="text" name="title" required value="{{ old('title', $page->title) }}" class="w-full text-base font-bold rounded-xl border border-gray-300 p-3.5 focus:ring-brand-500 focus:border-brand-500 shadow-xs text-gray-900 placeholder:font-normal placeholder:text-gray-400" />
         </div>
 
-        <div>
+        <div class="hidden">
             <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">Đường dẫn tĩnh (Slug)</label>
             <input type="text" name="slug" required value="{{ old('slug', $page->slug) }}" class="w-full font-mono text-xs text-gray-600 rounded-xl border border-gray-300 p-3 focus:ring-brand-500 focus:border-brand-500 shadow-xs bg-gray-50/50" />
         </div>
 
+{{--
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-gray-50/50 rounded-2xl border border-gray-100 items-center">
             <div>
                 <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">Ảnh bìa (Upload thay thế file mới)</label>
@@ -77,6 +78,7 @@
                 <input type="text" name="thumbnail" value="{{ old('thumbnail', $page->thumbnail) }}" placeholder="https://..." class="w-full font-mono text-xs rounded-xl border border-gray-300 p-3 bg-white shadow-xs focus:ring-brand-500 focus:border-brand-500" />
             </div>
         </div>
+--}}
 
         <div>
             <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">Đoạn mô tả ngắn (SEO Excerpt)</label>
@@ -90,8 +92,8 @@
             </div>
         </div>
 
-        <div class="pt-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex items-center space-x-2 cursor-pointer">
+        <div class="pt-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-end gap-4">
+            <div class="hidden">
                 <input type="checkbox" name="is_published" value="1" id="is_pub" {{ old('is_published', $page->is_published) ? 'checked' : '' }} class="w-5 h-5 text-brand-600 rounded border-gray-300 focus:ring-brand-500 cursor-pointer">
                 <label for="is_pub" class="text-sm font-bold text-gray-800 cursor-pointer">Xuất bản trang (Hiển thị công khai)</label>
             </div>

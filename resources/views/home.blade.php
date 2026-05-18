@@ -155,37 +155,49 @@
                 <div class="page-summary">
                     <h3><a href="{{ route('gioi-thieu.page', ['slug' => 'ngoi-nha-duc']) }}">{{ $featuredPost->title }}</a></h3>
                     <div class="excerpt">
-                        {!! $featuredPost->excerpt ?? '<p>Ngôi nhà Đức tại Đà Nẵng là trung tâm đào tạo tiếng Đức uy tín chất lượng hàng đầu...</p>' !!}
+                        <ul style="padding-left: 18px;">
+                            <li><span style="font-size: 14px;">HỌC TIẾNG ĐỨC <span
+                                        style="color: #333333;"><strong>&gt;&gt;<em> <span
+                                                    style="text-decoration: underline;"><a
+                                                        style="color: #333333; text-decoration: underline;"
+                                                        href="{{ route('lich-hoc') }}"
+                                                        target="_blank" rel="noopener">Đọc
+                                                        thêm</a></span></em></strong></span></span></li>
+                            <li><span style="font-size: 14px;">THI TIẾNG ĐỨC<span
+                                        style="color: #333333;"><strong>&gt;&gt;<em> <a style="color: #333333;"
+                                                    href="{{ route('lich-thi') }}"
+                                                    target="_blank" rel="noopener"><span
+                                                        style="text-decoration: underline;">Đọc
+                                                        thêm</span></a></em></strong></span></span></li>
+                        </ul>
                     </div>
                     <a href="{{ route('gioi-thieu.page', ['slug' => 'ngoi-nha-duc']) }}" class="read-more">Đọc thêm >></a>
                 </div>
             </div>
             @endif
 
-            <div class="block-page">
+                        <div class="block-page">
                 <div class="page-thumb">
                     <a href="#">
                         <img decoding="async" width="370" height="242"
-                            src="https://ngoinhaducindanang.com.vn/wp-content/uploads/2016/10/DSC_0505-370x242.jpg"
-                            class="attachment-page-thumbnail size-page-thumbnail wp-post-image" alt="" /> </a>
+                            src="{{ $eventCategory->image ?? 'https://ngoinhaducindanang.com.vn/wp-content/uploads/2016/10/DSC_0505-370x242.jpg' }}"
+                            class="attachment-page-thumbnail size-page-thumbnail wp-post-image" alt="{{ $eventCategory->name ?? 'Sự kiện' }}" /> </a>
                 </div>
                 <div class="page-summary">
-                    <h3><a href="#">Sự kiện</a></h3>
+                    <h3><a href="#">{{ $eventCategory->name ?? 'Sự kiện' }}</a></h3>
                     <div class="excerpt">
                         <ul style="padding-left: 18px;">
-                            <li><span style="font-size: 14px;">Ngày hội giao lưu ngôn ngữ tại Đà Nẵng <span
-                                        style="color: #333333;"><strong>&gt;&gt;<em> <span
-                                                    style="text-decoration: underline;"><a
-                                                        style="color: #333333; text-decoration: underline;"
-                                                        href="#"
-                                                        target="_blank" rel="noopener">Đọc
-                                                        thêm</a></span></em></strong></span></span></li>
-                            <li><span style="font-size: 14px;">BEETHOVEN tại Đà Nẵng <span
-                                        style="color: #333333;"><strong>&gt;&gt;<em> <a style="color: #333333;"
-                                                    href="#"
-                                                    target="_blank" rel="noopener"><span
-                                                        style="text-decoration: underline;">Đọc
-                                                        thêm</span></a></em></strong></span></span></li>
+                            @forelse($eventPosts as $post)
+                                <li><span style="font-size: 14px;">{{ Str::limit($post->title, 40, '...') }} <span
+                                            style="color: #333333;"><strong>&gt;&gt;<em> <span
+                                                        style="text-decoration: underline;"><a
+                                                            style="color: #333333; text-decoration: underline;"
+                                                            href="{{ route('posts.show', ['slug' => $post->slug]) }}"
+                                                            target="_blank" rel="noopener">Đọc
+                                                            thêm</a></span></em></strong></span></span></li>
+                            @empty
+                                <li><span style="font-size: 14px; color: #888;">Chưa có sự kiện nào.</span></li>
+                            @endforelse
                         </ul>
                     </div>
                     <a href="#" class="read-more">Đọc thêm >></a>

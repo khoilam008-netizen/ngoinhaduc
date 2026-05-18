@@ -31,7 +31,7 @@
                 <span>{{ isset($category) ? 'Chỉnh sửa: ' . $category->name : 'Thêm danh mục mới' }}</span>
             </h4>
 
-            <form action="{{ isset($category) ? route('admin.categories.update', $category->id) : route('admin.categories.store') }}" method="POST" class="space-y-5">
+            <form action="{{ isset($category) ? route('admin.categories.update', $category->id) : route('admin.categories.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
                 @csrf
                 @if(isset($category))
                     @method('PUT')
@@ -42,9 +42,18 @@
                     <input type="text" name="name" required value="{{ old('name', $category->name ?? '') }}" class="w-full text-sm rounded-xl border border-gray-300 p-3 bg-white text-gray-900 font-bold focus:ring-brand-500 focus:border-brand-500 shadow-xs placeholder:font-normal placeholder:text-gray-400" placeholder="Ví dụ: Tin tức sự kiện" />
                 </div>
 
+                <input type="hidden" name="slug" value="{{ old('slug', $category->slug ?? '') }}" />
+                <input type="hidden" name="image" value="{{ old('image', $category->image ?? '') }}" />
+
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">Đường dẫn tĩnh (Slug)</label>
-                    <input type="text" name="slug" value="{{ old('slug', $category->slug ?? '') }}" class="w-full text-xs font-mono rounded-xl border border-gray-300 p-3 bg-gray-50 text-gray-600 focus:ring-brand-500 focus:border-brand-500 shadow-xs" placeholder="tin-tuc-su-kien (Tự động nếu để trống)" />
+                    <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">Ảnh bìa</label>
+                    @if(isset($category) && $category->image)
+                        <div class="mb-3 flex items-center space-x-3 bg-gray-50 p-2.5 rounded-2xl border border-gray-150 w-fit">
+                            <img src="{{ $category->image }}" class="w-14 h-14 rounded-xl object-cover border border-gray-200 shadow-sm" alt="Ảnh hiện tại">
+                            <span class="text-xs text-gray-500 font-semibold">Ảnh hiện tại</span>
+                        </div>
+                    @endif
+                    <input type="file" name="image_file" accept="image/*" class="w-full text-xs rounded-xl border border-gray-300 p-3 bg-white text-gray-700 focus:ring-brand-500 focus:border-brand-500 shadow-xs" />
                 </div>
 
                 <div>
@@ -75,6 +84,7 @@
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-gray-50/75 text-gray-500 uppercase text-[11px] tracking-wider border-b border-gray-100 font-bold">
+                            <th class="py-3.5 px-6 w-24">Ảnh bìa</th>
                             <th class="py-3.5 px-6">Tên & Mô tả</th>
                             <th class="py-3.5 px-6">Đường dẫn tĩnh (Slug)</th>
                             <th class="py-3.5 px-6 text-center">Số bài viết</th>
@@ -84,6 +94,15 @@
                     <tbody class="divide-y divide-gray-100 text-sm text-gray-700 font-medium">
                         @forelse($categories as $item)
                             <tr class="hover:bg-gray-50/50 transition {{ (isset($category) && $category->id == $item->id) ? 'bg-amber-50/50' : '' }}">
+                                <td class="py-4 px-6">
+                                    @if($item->image)
+                                        <img src="{{ $item->image }}" class="w-12 h-12 rounded-xl object-cover border border-gray-200 shadow-sm" alt="{{ $item->name }}">
+                                    @else
+                                        <div class="w-12 h-12 rounded-xl bg-gray-100 text-gray-400 flex items-center justify-center border border-gray-200">
+                                            <i class="fa-solid fa-image text-lg"></i>
+                                        </div>
+                                    @endif
+                                </td>
                                 <td class="py-4 px-6">
                                     <div class="font-bold text-gray-900 text-base mb-0.5">{{ $item->name }}</div>
                                     @if($item->description)
@@ -111,7 +130,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center py-12 text-gray-500 font-medium text-xs">
+                                <td colspan="5" class="text-center py-12 text-gray-500 font-medium text-xs">
                                     Chưa có danh mục nào ngoài danh mục hệ thống.
                                 </td>
                             </tr>
