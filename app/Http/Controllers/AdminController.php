@@ -15,6 +15,8 @@ use App\Models\Slider;
 use App\Models\Menu;
 use App\Models\MenuItem;
 use App\Models\SliderItem;
+use App\Models\Category;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -237,8 +239,187 @@ class AdminController extends Controller
     // --- POSTS ---
     public function posts()
     {
-        $posts = Post::with('category')->latest()->paginate(15);
+        $posts = Post::with('category')->whereHas('category', function($q) {
+            $q->where('slug', '!=', 'gioi-thieu');
+        })->latest()->paginate(15);
         return view('admin.posts.index', compact('posts'));
+    }
+
+    public function createPost()
+    {
+        $categories = Category::where('slug', '!=', 'gioi-thieu')->get();
+        return view('admin.posts.create', compact('categories'));
+    }
+
+    public function storePost(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:posts,slug',
+            'category_id' => 'required|exists:categories,id',
+            'excerpt' => 'nullable|string',
+            'content' => 'required|string',
+            'thumbnail_file' => 'nullable|image|max:10240',
+            'thumbnail' => 'nullable|string',
+        ]);
+
+        if (empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['title']);
+        }
+
+        if ($request->hasFile('thumbnail_file')) {
+            $path = $request->file('thumbnail_file')->store('posts', 'public');
+            $validated['thumbnail'] = asset('storage/' . $path);
+        }
+        unset($validated['thumbnail_file']);
+
+        $validated['is_featured'] = $request->has('is_featured');
+        $validated['is_published'] = $request->has('is_published');
+        if ($validated['is_published']) {
+            $validated['published_at'] = now();
+        }
+
+        Post::create($validated);
+        return redirect()->route('admin.posts')->with('success', 'Thêm bài viết mới thành công.');
+    }
+
+    public function editPost($id)
+    {
+        $post = Post::findOrFail($id);
+        $categories = Category::where('slug', '!=', 'gioi-thieu')->get();
+        return view('admin.posts.edit', compact('post', 'categories'));
+    }
+
+    public function updatePost(Request $request, $id)
+    {
+        $post = Post::findOrFail($id);
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:posts,slug,' . $id,
+            'category_id' => 'required|exists:categories,id',
+            'excerpt' => 'nullable|string',
+            'content' => 'required|string',
+            'thumbnail_file' => 'nullable|image|max:10240',
+            'thumbnail' => 'nullable|string',
+        ]);
+
+        if ($request->hasFile('thumbnail_file')) {
+            $path = $request->file('thumbnail_file')->store('posts', 'public');
+            $validated['thumbnail'] = asset('storage/' . $path);
+        }
+        unset($validated['thumbnail_file']);
+
+        $validated['is_featured'] = $request->has('is_featured');
+        $validated['is_published'] = $request->has('is_published');
+        if ($validated['is_published'] && !$post->is_published) {
+            $validated['published_at'] = now();
+        }
+
+        $post->update($validated);
+        return redirect()->route('admin.posts')->with('success', 'Cập nhật bài viết thành công.');
+    }
+
+    public function destroyPost($id)
+    {
+        Post::findOrFail($id)->delete();
+        return redirect()->route('admin.posts')->with('success', 'Xóa bài viết thành công.');
+    }
+
+    // --- CATEGORIES (DANH MỤC BÀI VIẾT) ---
+    public function categories()
+    {
+        $categories = Category::where('slug', '!=', 'gioi-thieu')->withCount('posts')->latest()->get();
+        return view('admin.categories.index', compact('categories'));
+    }
+
+    public function storeCategory(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:categories,slug',
+            'description' => 'nullable|string',
+        ]);
+
+        if (empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['name']);
+        }
+
+        Category::create($validated);
+        return redirect()->route('admin.categories')->with('success', 'Thêm danh mục thành công.');
+    }
+
+    public function editCategory($id)
+    {
+        $category = Category::findOrFail($id);
+        $categories = Category::where('slug', '!=', 'gioi-thieu')->withCount('posts')->latest()->get();
+        return view('admin.categories.index', compact('categories', 'category'));
+    }
+
+    public function updateCategory(Request $request, $id)
+    {
+        $category = Category::findOrFail($id);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:categories,slug,' . $id,
+            'description' => 'nullable|string',
+        ]);
+
+        $category->update($validated);
+        return redirect()->route('admin.categories')->with('success', 'Cập nhật danh mục thành công.');
+    }
+
+    public function destroyCategory($id)
+    {
+        $category = Category::findOrFail($id);
+        if ($category->slug === 'gioi-thieu') {
+            return back()->with('error', 'Không thể xóa danh mục hệ thống Giới thiệu.');
+        }
+        if ($category->posts()->count() > 0) {
+            return back()->with('error', 'Không thể xóa danh mục đang có bài viết. Vui lòng chuyển hoặc xóa bài viết trước.');
+        }
+        $category->delete();
+        return redirect()->route('admin.categories')->with('success', 'Xóa danh mục thành công.');
+    }
+
+    // --- PAGES (GIỚI THIỆU - NỘI DUNG CỐ ĐỊNH) ---
+    public function pages()
+    {
+        $cat = Category::firstOrCreate(['slug' => 'gioi-thieu'], ['name' => 'Giới thiệu', 'description' => 'Các bài viết giới thiệu về trung tâm']);
+        $pages = Post::where('category_id', $cat->id)->orderBy('id')->get();
+        return view('admin.pages.index', compact('pages'));
+    }
+
+    public function editPage($id)
+    {
+        $page = Post::findOrFail($id);
+        return view('admin.pages.edit', compact('page'));
+    }
+
+    public function updatePage(Request $request, $id)
+    {
+        $page = Post::findOrFail($id);
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:posts,slug,' . $id,
+            'excerpt' => 'nullable|string',
+            'content' => 'required|string',
+            'thumbnail_file' => 'nullable|image|max:10240',
+            'thumbnail' => 'nullable|string',
+        ]);
+
+        if ($request->hasFile('thumbnail_file')) {
+            $path = $request->file('thumbnail_file')->store('posts', 'public');
+            $validated['thumbnail'] = asset('storage/' . $path);
+        }
+        unset($validated['thumbnail_file']);
+
+        $validated['is_published'] = $request->has('is_published');
+        if ($validated['is_published'] && !$page->is_published) {
+            $validated['published_at'] = now();
+        }
+
+        $page->update($validated);
+        return redirect()->route('admin.pages')->with('success', 'Cập nhật nội dung trang cố định thành công.');
     }
 
     // --- MENUS & MENU ITEMS ---

@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
         
         // Menu Items
         $m_gioithieu = MenuItem::firstOrCreate(['menu_id' => $menu->id, 'title' => 'Giới thiệu'], ['url' => '#', 'order' => 1]);
-        MenuItem::firstOrCreate(['menu_id' => $menu->id, 'parent_id' => $m_gioithieu->id, 'title' => 'Ngôi nhà Đức'], ['url' => route('gioi-thieu.ngoi-nha-duc'), 'order' => 1]);
+        MenuItem::firstOrCreate(['menu_id' => $menu->id, 'parent_id' => $m_gioithieu->id, 'title' => 'Ngôi nhà Đức'], ['url' => route('gioi-thieu.page', 'ngoi-nha-duc'), 'order' => 1]);
         MenuItem::firstOrCreate(['menu_id' => $menu->id, 'parent_id' => $m_gioithieu->id, 'title' => 'Giới thiệu Đà Nẵng'], ['url' => '#', 'order' => 2]);
         MenuItem::firstOrCreate(['menu_id' => $menu->id, 'parent_id' => $m_gioithieu->id, 'title' => 'Phương pháp giảng dạy'], ['url' => '#', 'order' => 3]);
         MenuItem::firstOrCreate(['menu_id' => $menu->id, 'parent_id' => $m_gioithieu->id, 'title' => 'Cơ sở vật chất'], ['url' => '#', 'order' => 4]);

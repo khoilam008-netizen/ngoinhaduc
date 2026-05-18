@@ -3,7 +3,7 @@
 @section('title', 'Quản lý Banner & Slider')
 
 @section('content')
-<div x-data="{ openAddItem: false }" class="space-y-8 max-w-6xl">
+<div x-data="{ openAddItem: false }" class="space-y-8 w-full">
     <!-- Slider Selector & Header -->
     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="flex items-center space-x-3">

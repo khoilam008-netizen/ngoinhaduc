@@ -147,17 +147,17 @@
             @if(!empty($featuredPost))
             <div class="block-page">
                 <div class="page-thumb">
-                    <a href="{{ route('gioi-thieu.ngoi-nha-duc') }}">
+                    <a href="{{ route('gioi-thieu.page', ['slug' => 'ngoi-nha-duc']) }}">
                         <img fetchpriority="high" decoding="async" width="370" height="242"
                             src="{{ $featuredPost->thumbnail ?? 'https://ngoinhaducindanang.com.vn/wp-content/uploads/2016/10/Klassegross6.jpg' }}"
                             class="attachment-page-thumbnail size-page-thumbnail wp-post-image" alt="{{ $featuredPost->title }}" /> </a>
                 </div>
                 <div class="page-summary">
-                    <h3><a href="{{ route('gioi-thieu.ngoi-nha-duc') }}">{{ $featuredPost->title }}</a></h3>
+                    <h3><a href="{{ route('gioi-thieu.page', ['slug' => 'ngoi-nha-duc']) }}">{{ $featuredPost->title }}</a></h3>
                     <div class="excerpt">
                         {!! $featuredPost->excerpt ?? '<p>Ngôi nhà Đức tại Đà Nẵng là trung tâm đào tạo tiếng Đức uy tín chất lượng hàng đầu...</p>' !!}
                     </div>
-                    <a href="{{ route('gioi-thieu.ngoi-nha-duc') }}" class="read-more">Đọc thêm >></a>
+                    <a href="{{ route('gioi-thieu.page', ['slug' => 'ngoi-nha-duc']) }}" class="read-more">Đọc thêm >></a>
                 </div>
             </div>
             @endif

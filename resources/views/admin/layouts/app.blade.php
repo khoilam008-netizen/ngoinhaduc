@@ -28,6 +28,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    @stack('styles')
     <style>
         body { font-family: 'Inter', sans-serif; }
         [x-cloak] { display: none !important; }
@@ -77,9 +78,27 @@
                 <span>Thư viện ảnh</span>
             </a>
 
-            <a href="{{ route('admin.posts') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg transition font-medium {{ request()->routeIs('admin.posts') ? 'bg-brand-500 text-white shadow-md shadow-brand-500/30' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
-                <i class="fa-solid fa-newspaper w-5 text-center"></i>
-                <span>Bài viết & Tin</span>
+            <div x-data="{ openPosts: {{ (request()->routeIs('admin.posts*') || request()->routeIs('admin.categories*')) ? 'true' : 'false' }} }" class="space-y-1">
+                <button @click="openPosts = !openPosts" type="button" class="w-full flex items-center justify-between px-4 py-3 rounded-lg transition font-medium text-gray-400 hover:bg-gray-800 hover:text-white cursor-pointer">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-newspaper w-5 text-center"></i>
+                        <span>Bài viết & Tin</span>
+                    </div>
+                    <i class="fa-solid text-xs transition-transform duration-200" :class="openPosts ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+                </button>
+                <div x-show="openPosts" x-transition class="pl-8 space-y-1 pt-1">
+                    <a href="{{ route('admin.categories') }}" class="flex items-center px-3 py-2.5 rounded-lg text-xs transition {{ request()->routeIs('admin.categories*') ? 'bg-brand-500 text-white font-bold shadow-sm shadow-brand-500/30' : 'text-gray-400 hover:text-white hover:bg-gray-800/50 font-medium' }}">
+                        <i class="fa-solid fa-folder w-4 mr-2"></i> Danh mục
+                    </a>
+                    <a href="{{ route('admin.posts') }}" class="flex items-center px-3 py-2.5 rounded-lg text-xs transition {{ request()->routeIs('admin.posts*') ? 'bg-brand-500 text-white font-bold shadow-sm shadow-brand-500/30' : 'text-gray-400 hover:text-white hover:bg-gray-800/50 font-medium' }}">
+                        <i class="fa-solid fa-file-pen w-4 mr-2"></i> Tất cả bài viết
+                    </a>
+                </div>
+            </div>
+
+            <a href="{{ route('admin.pages') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg transition font-medium {{ request()->routeIs('admin.pages*') ? 'bg-brand-500 text-white shadow-md shadow-brand-500/30' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
+                <i class="fa-solid fa-file-lines w-5 text-center"></i>
+                <span>Trang (Giới thiệu)</span>
             </a>
 
             <a href="{{ route('admin.menus') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg transition font-medium {{ request()->routeIs('admin.menus') ? 'bg-brand-500 text-white shadow-md shadow-brand-500/30' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
@@ -150,5 +169,6 @@
         </main>
     </div>
 
+    @stack('scripts')
 </body>
 </html>

@@ -39,10 +39,12 @@ Route::get('/lich-thi', function () {
 })->name('lich-thi');
 
 Route::group(['prefix' => 'gioi-thieu'], function () {
-    Route::get('/ngoi-nha-duc', function () {
-        $post = Post::where('slug', 'ngoi-nha-duc')->first();
+    Route::get('/{slug}', function ($slug) {
+        $post = Post::whereHas('category', function ($q) {
+            $q->where('slug', 'gioi-thieu');
+        })->where('slug', $slug)->firstOrFail();
         return view('gioithieu.ngoinhaduc', compact('post'));
-    })->name('gioi-thieu.ngoi-nha-duc');
+    })->name('gioi-thieu.page');
 });
 
 Route::group(['prefix' => 'thu-vien'], function () {
@@ -130,6 +132,21 @@ Route::prefix('admin')->group(function () {
     Route::delete('/gallery-images/{id}', [AdminController::class, 'destroyGalleryImage'])->name('admin.gallery_images.destroy');
     
     Route::get('/posts', [AdminController::class, 'posts'])->name('admin.posts');
+    Route::get('/posts/create', [AdminController::class, 'createPost'])->name('admin.posts.create');
+    Route::post('/posts', [AdminController::class, 'storePost'])->name('admin.posts.store');
+    Route::get('/posts/{id}/edit', [AdminController::class, 'editPost'])->name('admin.posts.edit');
+    Route::put('/posts/{id}', [AdminController::class, 'updatePost'])->name('admin.posts.update');
+    Route::delete('/posts/{id}', [AdminController::class, 'destroyPost'])->name('admin.posts.destroy');
+    
+    Route::get('/categories', [AdminController::class, 'categories'])->name('admin.categories');
+    Route::post('/categories', [AdminController::class, 'storeCategory'])->name('admin.categories.store');
+    Route::get('/categories/{id}/edit', [AdminController::class, 'editCategory'])->name('admin.categories.edit');
+    Route::put('/categories/{id}', [AdminController::class, 'updateCategory'])->name('admin.categories.update');
+    Route::delete('/categories/{id}', [AdminController::class, 'destroyCategory'])->name('admin.categories.destroy');
+    
+    Route::get('/pages', [AdminController::class, 'pages'])->name('admin.pages');
+    Route::get('/pages/{id}/edit', [AdminController::class, 'editPage'])->name('admin.pages.edit');
+    Route::put('/pages/{id}', [AdminController::class, 'updatePage'])->name('admin.pages.update');
     
     Route::get('/menus', [AdminController::class, 'menus'])->name('admin.menus');
     Route::post('/menus/{menu_id}/items', [AdminController::class, 'storeMenuItem'])->name('admin.menu_items.store');
