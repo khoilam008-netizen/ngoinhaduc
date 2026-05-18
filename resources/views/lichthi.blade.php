@@ -54,9 +54,11 @@
                             </td>
                             <td style="border-bottom: 1px solid #555555; height: 278px; text-align: center; vertical-align: middle;">
                                 <span style="font-size: 14px;">
-                                    <img decoding="async" class="aligncenter size-full wp-image-669" src="https://ngoinhaducindanang.com.vn/wp-content/uploads/2016/10/nut-dang-ky.jpg" alt="nut-dang-ky" width="200" height="147" />
+                                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfALLodQrJskjvp2bv_vonxWGQofKBlyDqYjzW47loLYX0fAg/viewform?fbzx=-6877054708055456630" target="_blank">
+                                        <img decoding="async" class="aligncenter size-full wp-image-669" src="https://ngoinhaducindanang.com.vn/wp-content/uploads/2016/10/nut-dang-ky.jpg" alt="nut-dang-ky" width="200" height="147" />
+                                    </a>
                                 </span>
-                                <p style="text-align: center; margin-top: 10px;"><a href="{{ route('dang-ky.du-thi') }}" class="btn-link" style="display:inline-block; padding:8px 16px; background:#a2c037; color:#fff; text-decoration:none; border-radius:4px; font-weight:bold;">ĐĂNG KÝ THI</a></p>
+                                <p style="text-align: center; margin-top: 10px;"><a href="https://docs.google.com/forms/d/e/1FAIpQLSfALLodQrJskjvp2bv_vonxWGQofKBlyDqYjzW47loLYX0fAg/viewform?fbzx=-6877054708055456630" target="_blank" class="btn-link" style="display:inline-block; padding:8px 16px; background:#a2c037; color:#fff; text-decoration:none; border-radius:4px; font-weight:bold;">ĐĂNG KÝ THI</a></p>
                             </td>
                         </tr>
                         <tr style="height: 4px;">
