@@ -28,23 +28,18 @@
 
 <div class="wrap container" role="document">
     <div class="content row">
-        <main class="main">
-            <div class="contact-map">
-                <div class="container">
-                    <iframe style="border: 0;"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1917.0171231660102!2d108.22020265790809!3d16.063712574704123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTbCsDAzJzQ5LjQiTiAxMDjCsDEzJzE2LjciRQ!5e0!3m2!1svi!2s!4v1466161870093"
-                        width="800" height="440" frameborder="0" allowfullscreen="allowfullscreen"></iframe><br />
-                </div>
+        <main class="main" style="width: 100%;">
+            <div class="contact-map" style="margin-bottom: 30px;">
+                <iframe style="border: 0; width: 100%; max-width: 100%;"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1917.0171231660102!2d108.22020265790809!3d16.063712574704123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTbCsDAzJzQ5LjQiTiAxMDjCsDEzJzE2LjciRQ!5e0!3m2!1svi!2s!4v1466161870093"
+                    height="440" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
             </div>
-            <h2><span style="font-size: 28px;"><strong>Trung tâm Đức ngữ Ngôi nhà Đức</strong></span></h2>
-            <p><span style="font-size: 14px;">● <strong>Địa chỉ:</strong> K31/2 Lê Hồng Phong, Đà Nẵng ●
-                    Tel.<strong>:</strong> + 84 (0236) 3565 783 ● Di động: + 84 90428 1801 (thứ 2,3, 4, 5, 6, 13h30-
-                    17h00)</span><br />
-                <span style="font-size: 14px;"> ● Email đăng ký học: <a
-                        href="mailto:ngoinhaducindanang@gmail.com"><strong><span
-                                style="text-decoration: underline;">ngoinhaducindanang@gmail.com</span></strong></a>
-                    ● Email đăng ký thi: <a href="mailto:dangkythidanang@gmail.com"><strong><span
-                                style="text-decoration: underline;">dangkythidanang@gmail.com</span></strong></a></span>
+            <h2><span style="font-size: 28px;"><strong>{{ $globalSettings['site_name'] ?? 'Trung tâm Đức ngữ Ngôi nhà Đức' }}</strong></span></h2>
+            <p style="font-size: 16px; line-height: 1.8;">
+                ● <strong>Địa chỉ:</strong> {{ $globalSettings['address'] ?? 'K31/2 Lê Hồng Phong, Đà Nẵng' }}<br />
+                ● <strong>Tel.:</strong> <a href="tel:{{ $globalSettings['phone_link'] ?? '+842363565783' }}">{{ $globalSettings['phone'] ?? '+ 84 (0236) 3565 783' }}</a><br />
+                ● <strong>Email đăng ký học:</strong> <a href="mailto:{{ $globalSettings['email_hoc'] ?? 'ngoinhaducindanang@gmail.com' }}"><strong><span style="text-decoration: underline;">{{ $globalSettings['email_hoc'] ?? 'ngoinhaducindanang@gmail.com' }}</span></strong></a><br />
+                ● <strong>Email đăng ký thi:</strong> <a href="mailto:{{ $globalSettings['email_thi'] ?? 'dangkythidanang@gmail.com' }}"><strong><span style="text-decoration: underline;">{{ $globalSettings['email_thi'] ?? 'dangkythidanang@gmail.com' }}</span></strong></a>
             </p>
         </main>
     </div>

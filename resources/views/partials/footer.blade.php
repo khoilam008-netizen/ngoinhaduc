@@ -4,16 +4,15 @@
             <h3>Thông tin liên hệ</h3>
             <div class="textwidget">
                 <ul>
-                    <li><span style="font-size: 16px;">Địa chỉ: K31/2 Lê Hồng Phong, Tp. Đà Nẵng</span></li>
-                    <li><span style="font-size: 16px;">Điện thoại: <a href="tel:+842363565783">+ 84 (0236) 3565
-                                783</a></span></li>
+                    <li><span style="font-size: 16px;">Địa chỉ: {{ $globalSettings['address'] ?? 'K31/2 Lê Hồng Phong, Tp. Đà Nẵng' }}</span></li>
+                    <li><span style="font-size: 16px;">Điện thoại: <a href="tel:{{ $globalSettings['phone_link'] ?? '+842363565783' }}">{{ $globalSettings['phone'] ?? '+ 84 (0236) 3565 783' }}</a></span></li>
                     <li><span style="font-size: 16px;">Email đăng ký học: <span
                                 style="text-decoration: underline;"><strong><a
-                                        href="mailto:ngoinhaducindanang@gmail.com">ngoinhaducindanang@gmail.com</a></strong></span></span>
+                                        href="mailto:{{ $globalSettings['email_hoc'] ?? 'ngoinhaducindanang@gmail.com' }}">{{ $globalSettings['email_hoc'] ?? 'ngoinhaducindanang@gmail.com' }}</a></strong></span></span>
                     </li>
                     <li><span style="font-size: 16px;">Email đăng ký thi: <span
                                 style="text-decoration: underline;"><strong><a
-                                        href="mailto:dangkythidanang@gmail.com">dangkythidanang@gmail.com</a></strong></span></span>
+                                        href="mailto:{{ $globalSettings['email_thi'] ?? 'dangkythidanang@gmail.com' }}">{{ $globalSettings['email_thi'] ?? 'dangkythidanang@gmail.com' }}</a></strong></span></span>
                     </li>
                 </ul>
             </div>
@@ -27,7 +26,7 @@
                             <td style="width: 262.717px; height: 7px;">
                                 <ul>
                                     <li><span style="text-decoration: underline; font-size: 16px;"><a
-                                                href="https://www.facebook.com/ngoinhaducindanang.com.vn/"
+                                                href="{{ $globalSettings['facebook_url'] ?? 'https://www.facebook.com/ngoinhaducindanang.com.vn/' }}"
                                                 target="_blank"><strong>Facebook</strong></a></span></li>
                                     <li><span style="text-decoration: underline; font-size: 16px;"><strong><a
                                                     href="http://www.hanoi.diplo.de/" target="_blank">Đại sứ quán

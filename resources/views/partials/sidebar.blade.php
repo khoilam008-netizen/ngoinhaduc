@@ -4,7 +4,7 @@
         <div class="textwidget">
             <div class="page-featured-image">
                 <img width="800" height="600" 
-                     src="{{ $sidebar_img ?? 'https://ngoinhaducindanang.com.vn/wp-content/uploads/2016/10/Klassegross6.jpg' }}" 
+                     src="{{ $globalSettings['sidebar_image'] ?? 'https://ngoinhaducindanang.com.vn/wp-content/uploads/2016/10/Klassegross6.jpg' }}" 
                      class="attachment-post-thumbnail size-post-thumbnail wp-post-image" 
                      alt="" decoding="async" loading="lazy" />
             </div>
@@ -16,10 +16,18 @@
                 <div class='slider-wrapper theme-default'>
                     <div class='ribbon'></div>
                     <div id='metaslider_656' class='nivoSlider'>
-                        <a href="#" target="_blank"><img src="https://ngoinhaducindanang.com.vn/wp-content/uploads/2017/03/sicher.jpg" height="533" width="400" alt="" class="slider-656 slide-663" /></a>
-                        <a href="#" target="_blank"><img src="https://ngoinhaducindanang.com.vn/wp-content/uploads/2017/03/menschen.jpg" height="533" width="400" alt="" class="slider-656 slide-659" /></a>
-                        <a href="#" target="_blank"><img src="https://ngoinhaducindanang.com.vn/wp-content/uploads/2017/03/schritte.jpg" height="533" width="400" alt="" class="slider-656 slide-661" /></a>
-                        <a href="#" target="_blank"><img src="https://ngoinhaducindanang.com.vn/wp-content/uploads/2017/04/dutch-flag1-400x533.jpg" height="533" width="400" alt="" class="slider-656 slide-786" /></a>
+                        @if(!empty($sidebarSlider) && $sidebarSlider->items->isNotEmpty())
+                            @foreach($sidebarSlider->items as $slide)
+                                <a href="{{ $slide->link ?? '#' }}" target="_blank">
+                                    <img src="{{ $slide->image_path }}" height="533" width="400" alt="{{ $slide->title ?? '' }}" class="slider-656 slide-{{ $slide->id }}" />
+                                </a>
+                            @endforeach
+                        @else
+                            <a href="#" target="_blank"><img src="https://ngoinhaducindanang.com.vn/wp-content/uploads/2017/03/sicher.jpg" height="533" width="400" alt="" class="slider-656 slide-663" /></a>
+                            <a href="#" target="_blank"><img src="https://ngoinhaducindanang.com.vn/wp-content/uploads/2017/03/menschen.jpg" height="533" width="400" alt="" class="slider-656 slide-659" /></a>
+                            <a href="#" target="_blank"><img src="https://ngoinhaducindanang.com.vn/wp-content/uploads/2017/03/schritte.jpg" height="533" width="400" alt="" class="slider-656 slide-661" /></a>
+                            <a href="#" target="_blank"><img src="https://ngoinhaducindanang.com.vn/wp-content/uploads/2017/04/dutch-flag1-400x533.jpg" height="533" width="400" alt="" class="slider-656 slide-786" /></a>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -30,15 +30,15 @@
     <div class="content row">
         <main class="main">
             <div class="block-table table-responsive" id="">
-                <table style="width: 932px; height: 1676px;">
+                <table style="width: 100%;">
                     <tbody>
                         <tr style="height: 46px;">
-                            <td style="width: 759px; height: 46px;" colspan="3">
+                            <td style="height: 46px;" colspan="3">
                                 <h1 style="text-align: center;"><strong><span style="font-size: 20px;">LỊCH THI GOETHE ZERTIFIKAT</span></strong></h1>
                             </td>
                         </tr>
                         <tr style="height: 278px;">
-                            <td style="width: 537.625px; border-bottom: 1px solid #555555; height: 278px;" colspan="2">
+                            <td style="border-bottom: 1px solid #555555; height: 278px;" colspan="2">
                                 <span style="font-size: 14px;">
                                     <img decoding="async" class="aligncenter wp-image-1063" src="https://ngoinhaducindanang.com.vn/wp-content/uploads/2016/10/GI_Pruefungszentrum_green_sRGB_2-e1480662784550-300x226-300x226.png" width="197" height="149" />
                                 </span>
@@ -52,55 +52,41 @@
                                     <li><span style="font-size: 16px;"><a href="https://www.goethe.de/ins/vn/vi/spr/kon/stu.html" target="_blank" rel="noopener noreferrer"><span style="text-decoration: underline;"><strong>Bạn cần có những kiến thức gì?</strong></span></a></span></li>
                                 </ul>
                             </td>
-                            <td style="width: 221.375px; border-bottom: 1px solid #555555; height: 278px;">
+                            <td style="border-bottom: 1px solid #555555; height: 278px; text-align: center; vertical-align: middle;">
                                 <span style="font-size: 14px;">
                                     <img decoding="async" class="aligncenter size-full wp-image-669" src="https://ngoinhaducindanang.com.vn/wp-content/uploads/2016/10/nut-dang-ky.jpg" alt="nut-dang-ky" width="200" height="147" />
                                 </span>
-                                <p style="text-align: center;"><a href="https://ngoinhaducindanang.com.vn/dang-ky/dang-ky-du-thi/">ĐĂNG KÝ THI</a></p>
+                                <p style="text-align: center; margin-top: 10px;"><a href="{{ route('dang-ky.du-thi') }}" class="btn-link" style="display:inline-block; padding:8px 16px; background:#a2c037; color:#fff; text-decoration:none; border-radius:4px; font-weight:bold;">ĐĂNG KÝ THI</a></p>
                             </td>
                         </tr>
                         <tr style="height: 4px;">
-                            <td style="width: 135px; text-align: center; background-color: #bcbdc0; border: 1px solid #555555; height: 4px;">
-                                <p><span style="font-size: 16px;"><strong> THÁNG</strong></span></p>
+                            <td style="width: 150px; text-align: center; background-color: #bcbdc0; border: 1px solid #555555; padding: 10px 0;">
+                                <p style="margin: 0;"><span style="font-size: 16px;"><strong>THÁNG</strong></span></p>
                             </td>
-                            <td style="width: 402.625px; text-align: center; background-color: #bcbdc0; border: 1px solid #555555; height: 4px;">
-                                <p><span style="font-size: 16px;"><strong>ĐĂNG KÝ THI BẮT ĐẦU TỪ 8 GIỜ SÁNG NGÀY DƯỚI ĐÂY</strong></span></p>
+                            <td style="text-align: center; background-color: #bcbdc0; border: 1px solid #555555; padding: 10px 0;">
+                                <p style="margin: 0;"><span style="font-size: 16px;"><strong>ĐĂNG KÝ THI BẮT ĐẦU TỪ 8 GIỜ SÁNG NGÀY DƯỚI ĐÂY</strong></span></p>
                             </td>
-                            <td style="width: 221.375px; text-align: center; background-color: #bcbdc0; border: 1px solid #555555; height: 4px;">
-                                <p><span style="font-size: 16px;"><strong>NGÀY THI</strong></span></p>
+                            <td style="width: 250px; text-align: center; background-color: #bcbdc0; border: 1px solid #555555; padding: 10px 0;">
+                                <p style="margin: 0;"><span style="font-size: 16px;"><strong>NGÀY THI</strong></span></p>
                             </td>
                         </tr>
-                        @php
-                            $months = [
-                                'T1/2026' => ['reg' => '–', 'exam' => '–'],
-                                'T2' => ['reg' => '–', 'exam' => '–'],
-                                'T3' => ['reg' => '–', 'exam' => '–'],
-                                'T4' => ['reg' => '–', 'exam' => '–'],
-                                'T5' => ['reg' => '–', 'exam' => '–'],
-                                'T6' => ['reg' => '–', 'exam' => '–'],
-                                'T7' => ['reg' => '–', 'exam' => '–'],
-                                'T8' => ['reg' => '–', 'exam' => '–'],
-                                'T9' => ['reg' => '–', 'exam' => '–'],
-                                'T10' => ['reg' => '–', 'exam' => '–'],
-                                'T11' => ['reg' => '–', 'exam' => '–'],
-                                'T12' => ['reg' => '–', 'exam' => '–'],
-                            ];
-                        @endphp
-                        @foreach($months as $month => $data)
-                        <tr style="height: 27px;">
-                            <td style="width: 135px; text-align: center; height: 27px;"><span style="font-size: 20px;"><strong>{{ $month }}</strong></span></td>
-                            <td style="width: 402.625px; text-align: center; height: 27px;">
-                                <p><strong><span style="font-size: 20px;">{!! $data['reg'] !!}</span></strong></p>
-                            </td>
-                            <td style="width: 221.375px; height: 27px; text-align: center;"><strong><span style="font-size: 20px;">{!! $data['exam'] !!}</span></strong></td>
-                        </tr>
-                        @endforeach
+                        @if(!empty($examSchedules) && $examSchedules->isNotEmpty())
+                            @foreach($examSchedules as $exam)
+                            <tr style="height: 35px;">
+                                <td style="text-align: center; border: 1px solid #ccc; padding: 10px;"><span style="font-size: 18px;"><strong>{{ $exam->month }}</strong></span></td>
+                                <td style="text-align: center; border: 1px solid #ccc; padding: 10px;">
+                                    <p style="margin: 0;"><strong><span style="font-size: 18px;">{!! $exam->registration_date_info !!}</span></strong></p>
+                                </td>
+                                <td style="text-align: center; border: 1px solid #ccc; padding: 10px;"><strong><span style="font-size: 18px;">{!! $exam->exam_date_info !!}</span></strong></td>
+                            </tr>
+                            @endforeach
+                        @endif
                     </tbody>
                 </table>
             </div>
         </main>
 
-        @include('partials.sidebar', ['sidebar_img' => 'https://ngoinhaducindanang.com.vn/wp-content/uploads/2016/10/DSC_0510.jpg'])
+        @include('partials.sidebar')
     </div>
 </div>
 
@@ -108,17 +94,29 @@
     <div class="container">
         <h2>Thư viện</h2>
         <div class="image-galleries">
-            <div class="image-gallery">
-                <a class="post-thumb" href="https://ngoinhaducindanang.com.vn/wp-content/uploads/2016/10/DSC_0353.jpg" data-sub-html="<h5>Tham quan lớp học 1</h5>">
-                    <img width="370" height="242" src="https://ngoinhaducindanang.com.vn/wp-content/uploads/2016/10/DSC_0353-370x242.jpg" class="attachment-page-thumbnail size-page-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" />
-                    <div class="gallery-summary">
-                        <h5>Tham quan lớp học 1</h5>
-                        <p>-</p>
-                        <p>Chủ đề: Lớp học vui</p>
-                    </div>
-                </a>
-            </div>
-            {{-- Simplified gallery for now --}}
+            @if(!empty($galleries) && $galleries->isNotEmpty())
+                @foreach($galleries as $gallery)
+                <div class="image-gallery">
+                    <a class="post-thumb" href="{{ $gallery->cover_image ?? '#' }}" data-sub-html="<h5>{{ $gallery->title }}</h5>">
+                        <img width="370" height="242" src="{{ $gallery->cover_image ?? '#' }}" class="attachment-page-thumbnail size-page-thumbnail wp-post-image" alt="{{ $gallery->title }}" decoding="async" loading="lazy" />
+                        <div class="gallery-summary">
+                            <h5>{{ $gallery->title }}</h5>
+                            <p>-</p>
+                            <p>{{ $gallery->description }}</p>
+                        </div>
+                    </a>
+                    @if($gallery->images->isNotEmpty())
+                        @foreach($gallery->images as $img)
+                            @if($img->image_path !== $gallery->cover_image)
+                            <a href="{{ $img->image_path }}" data-sub-html="<h5>{{ $img->caption ?? $gallery->title }}</h5>">
+                                <img src="{{ $img->image_path }}" alt="" style="display: none;">
+                            </a>
+                            @endif
+                        @endforeach
+                    @endif
+                </div>
+                @endforeach
+            @endif
         </div>
     </div>
 </div>
