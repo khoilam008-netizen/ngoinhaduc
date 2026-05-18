@@ -110,10 +110,50 @@
 @push('scripts')
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
+    class MyUploadAdapter {
+        constructor(loader) {
+            this.loader = loader;
+        }
+        upload() {
+            return this.loader.file
+                .then(file => new Promise((resolve, reject) => {
+                    const data = new FormData();
+                    data.append('upload', file);
+                    data.append('_token', '{{ csrf_token() }}');
+
+                    fetch('{{ route("admin.upload-image") }}', {
+                        method: 'POST',
+                        body: data
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.url) {
+                            resolve({
+                                default: result.url
+                            });
+                        } else {
+                            reject(result.error ? result.error.message : 'Tải lên thất bại');
+                        }
+                    })
+                    .catch(error => {
+                        reject(error.message);
+                    });
+                }));
+        }
+        abort() {}
+    }
+
+    function MyCustomUploadAdapterPlugin(editor) {
+        editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+            return new MyUploadAdapter(loader);
+        };
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         ClassicEditor
             .create(document.querySelector('#page_editor'), {
-                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'blockQuote', 'insertTable', 'mediaEmbed', '|', 'undo', 'redo']
+                extraPlugins: [MyCustomUploadAdapterPlugin],
+                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload', '|', 'blockQuote', 'insertTable', 'mediaEmbed', '|', 'undo', 'redo']
             })
             .catch(error => {
                 console.error(error);

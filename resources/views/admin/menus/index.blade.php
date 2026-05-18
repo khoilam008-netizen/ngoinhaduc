@@ -63,7 +63,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Đường dẫn (URL)</label>
+                            <label class="text-xs font-semibold text-gray-600 uppercase mb-1">Đường dẫn (URL)</label>
                             <input type="text" name="url" placeholder="https://... hoặc /lich-hoc hoặc #" class="w-full text-sm rounded-xl border border-gray-300 p-2.5 bg-white shadow-sm font-mono text-xs focus:ring-brand-500" />
                             <span class="text-[11px] text-gray-400 mt-1 block">Dùng # nếu đây là mục cha chứa danh sách thả xuống.</span>
                         </div>
@@ -213,7 +213,8 @@
 
                     <div>
                         <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Đường dẫn (URL)</label>
-                        <input type="text" name="url" x-model="editItem.url" readonly class="w-full text-sm rounded-xl border border-gray-300 p-2.5 bg-gray-100 text-gray-500 cursor-not-allowed shadow-sm font-mono text-xs" />
+                        <input type="text" name="url" x-model="editItem.url" class="w-full text-sm rounded-xl border border-gray-300 p-2.5 bg-white text-gray-800 focus:ring-brand-500 focus:border-brand-500 shadow-sm font-mono text-xs" />
+                        <span class="text-[11px] text-gray-400 mt-1 block">Dùng # nếu đây là mục cha chứa danh sách thả xuống.</span>
                     </div>
 
                     <div>

@@ -34,9 +34,9 @@
 @endpush
 
 @section('content')
-<div class="max-w-5xl mb-12">
+<div class="w-full mb-12">
     <!-- Header Banner -->
-    <div class="bg-gradient-to-r from-gray-900 to-brand-800 rounded-3xl p-8 text-white shadow-xl mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="bg-gradient-to-r from-gray-900 to-gray-900 rounded-3xl p-8 text-white shadow-xl mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <div class="space-y-2">
             <span class="bg-brand-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">Cấu hình hệ thống</span>
             <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Cài đặt Website & Trung Tâm</h2>
@@ -186,10 +186,50 @@
 @push('scripts')
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
+    class MyUploadAdapter {
+        constructor(loader) {
+            this.loader = loader;
+        }
+        upload() {
+            return this.loader.file
+                .then(file => new Promise((resolve, reject) => {
+                    const data = new FormData();
+                    data.append('upload', file);
+                    data.append('_token', '{{ csrf_token() }}');
+
+                    fetch('{{ route("admin.upload-image") }}', {
+                        method: 'POST',
+                        body: data
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.url) {
+                            resolve({
+                                default: result.url
+                            });
+                        } else {
+                            reject(result.error ? result.error.message : 'Tải lên thất bại');
+                        }
+                    })
+                    .catch(error => {
+                        reject(error.message);
+                    });
+                }));
+        }
+        abort() {}
+    }
+
+    function MyCustomUploadAdapterPlugin(editor) {
+        editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+            return new MyUploadAdapter(loader);
+        };
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         ClassicEditor
             .create(document.querySelector('#warning_editor'), {
-                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'blockQuote', 'insertTable', '|', 'undo', 'redo']
+                extraPlugins: [MyCustomUploadAdapterPlugin],
+                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload', '|', 'blockQuote', 'insertTable', '|', 'undo', 'redo']
             })
             .catch(error => {
                 console.error(error);

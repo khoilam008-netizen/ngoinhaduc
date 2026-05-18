@@ -178,4 +178,5 @@ Route::prefix('admin')->group(function () {
     
     Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
     Route::put('/settings', [AdminController::class, 'updateSettings'])->name('admin.settings.update');
+    Route::post('/upload-image', [AdminController::class, 'uploadImage'])->name('admin.upload-image');
 });

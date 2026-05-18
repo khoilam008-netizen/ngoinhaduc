@@ -564,4 +564,16 @@ class AdminController extends Controller
         }
         return back()->with('success', 'Cập nhật cài đặt thành công.');
     }
+
+    public function uploadImage(Request $request)
+    {
+        if ($request->hasFile('upload')) {
+            $path = $request->file('upload')->store('editor_uploads', 'public');
+            $url = asset('storage/' . $path);
+            return response()->json([
+                'url' => $url
+            ]);
+        }
+        return response()->json(['error' => 'No file uploaded'], 400);
+    }
 }
